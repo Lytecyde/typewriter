@@ -1,8 +1,8 @@
 window.onload = function () {
 	window.onkeypress = function (e) {
 		var letter = e.key;  
-		var span = $("span:contains(" + letter + "):first");
-		span.css({"color": "red"});
+		var span = $("span.hidden:contains(" + letter + "):first");
+		span.removeClass("hidden");
 	}
 
 	$("p").each(function () {
@@ -12,7 +12,7 @@ window.onload = function () {
 
 	    for (var i = 0; i < text.length; i++) {
 	    	var c = text[i];
-	    	spanned = spanned + "<span>" + c + "</span>";
+	    	spanned = spanned + '<span class="hidden">' + c + "</span>";
 	    }
 
 	    p.html(spanned);
