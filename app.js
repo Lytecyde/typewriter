@@ -1,7 +1,8 @@
 window.onload = function () {
 	window.onkeypress = function (e) {
-		console.log(e);
-		var letter = e.key;   
+		var letter = e.key;  
+		var span = $("span:contains(" + letter + "):first");
+		span.css({"color": "red"});
 	}
 
 	$("p").each(function () {
@@ -17,5 +18,3 @@ window.onload = function () {
 	    p.html(spanned);
 	});
 }
-
-
