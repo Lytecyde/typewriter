@@ -1,8 +1,11 @@
 window.onload = function () {
+	window.sound = new Audio("typeclick.wav");
+
 	window.onkeypress = function (e) {
 		var letter = e.key;  
 		var span = $("span.hidden:contains(" + letter + "):first");
 		span.removeClass("hidden");
+		window.sound.play();
 	}
 
 	$("p").each(function () {
