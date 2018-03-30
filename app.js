@@ -4,6 +4,9 @@ String.prototype.rot13 = function(){
     });
 };
 
+window.lastInput = 0;
+window.timeoutMillis = 5000;
+
 window.onload = function () {
 	window.sound = new Audio("typeclick.wav");
 
@@ -12,6 +15,7 @@ window.onload = function () {
 			span = $("span.hidden:contains(" + letter + "):first");
 		span.removeClass("hidden");
 		window.sound.play();
+		window.lastInput = new Date().getTime();
 	};
 
 	$("p").each(function () {
@@ -33,5 +37,16 @@ window.onload = function () {
 	    p.html(spanned);
 	    p.removeClass('hidden');
 	});
+
+	window.setInterval(function () {
+		var diff = new Date().getTime() - window.lastInput;
+		if (diff < window.timeoutMillis) {
+			return;
+		}
+
+		var span = $('span').not('hidden');
+		console.log(span);
+		span.addClass('hidden');
+	}, window.timeoutMillis);
 };
 
