@@ -1,6 +1,6 @@
 default: build
 
-build:
+build: lint
 	rm -rf dist
 	mkdir dist
 	java -jar lib/yuicompressor-2.4.8.jar app.js -o dist/app.js
@@ -8,3 +8,7 @@ build:
 	html-minifier -o dist/index.html index.html 
 	cp jquery-3.3.1.min.js dist/
 	cp *.wav dist/
+
+lint:
+	jshint app.js
+	csslint app.css

@@ -1,4 +1,4 @@
-window.app = {}
+window.app = {};
 
 window.app.code = function(){
     return this.replace(/[a-zA-Z]/g, function(c){
