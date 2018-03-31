@@ -1,25 +1,20 @@
 window.app = {};
 
-window.app.code = function(){
-    return this.replace(/[a-zA-Z]/g, function(c){
+window.app.code = function () {
+    return this.replace(/[a-zA-Z]/g, function (c) {
         return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);
     });
 };
 
-window.app.lastInput = 0;
-window.app.timeoutMillis = 5000;
+window.app.onkeypress = function (e) {
+	var letter = e.key,
+		span = $("span.hidden:contains(" + letter + "):first");
+	span.removeClass("hidden");
+	window.app.sound.play();
+	window.app.lastInput = new Date().getTime();
+};
 
-window.onload = function () {
-	window.app.sound = new Audio("typeclick.wav");
-
-	window.onkeypress = function (e) {
-		var letter = e.key,
-			span = $("span.hidden:contains(" + letter + "):first");
-		span.removeClass("hidden");
-		window.app.sound.play();
-		window.app.lastInput = new Date().getTime();
-	};
-
+window.app.markup = function () {
 	$("p").each(function () {
 	    var p = $(this), 
 	    	text = p.text(),
@@ -39,15 +34,13 @@ window.onload = function () {
 	    p.html(spanned);
 	    p.removeClass('hidden');
 	});
-
-	window.setInterval(function () {
-		var diff = new Date().getTime() - window.lastInput;
-		if (diff < window.app.timeoutMillis) {
-			return;
-		}
-
-		var span = $('span').not('hidden').filter(':last');
-		span.addClass('hidden');
-	}, window.app.timeoutMillis);
 };
 
+window.app.lastInput = 0;
+window.app.timeoutMillis = 5000;
+
+window.onload = function () {
+	window.app.sound = new Audio("typeclick.wav");
+	window.onkeypress = window.app.onkeypress;
+	window.app.markup();
+};
