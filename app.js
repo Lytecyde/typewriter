@@ -7,11 +7,18 @@ window.app.code = function (s) {
 };
 
 window.app.onkeypress = function (e) {
-	var letter = e.key,
+	var letter = window.app.code(e.key),
 		span = $("span.hidden:contains(" + letter + "):first");
+
+	if (!span.length) {
+		window.app.thumpSound.play();
+		return;
+	}
+	
+	window.app.typeclickSound.play();
+
 	span.removeClass("hidden");
-	window.app.sound.play();
-	window.app.lastInput = new Date().getTime();
+	span.text(e.key);
 };
 
 window.app.markup = function () {
@@ -40,7 +47,11 @@ window.app.lastInput = 0;
 window.app.timeoutMillis = 5000;
 
 window.onload = function () {
-	window.app.sound = new Audio("typeclick.wav");
-	window.onkeypress = window.app.onkeypress;
 	window.app.markup();
+
+	window.app.typeclickSound = new Audio("typeclick.wav");
+	window.app.thumpSound = new Audio("thump.wav");
+	window.app.returnSound = new Audio("return.wav");
+
+	window.onkeypress = window.app.onkeypress;
 };
