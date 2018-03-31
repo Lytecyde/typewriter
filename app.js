@@ -7,9 +7,14 @@ window.app.code = function (s) {
 };
 
 window.app.onkeypress = function (e) {
-	var letter = window.app.code(e.key),
-		span = $("span.hidden:contains(" + letter + "):first");
+	var letter = window.app.code(e.key);
 
+	if (letter === " ") {
+		window.app.typeclickSound.play();
+		return;
+	}
+
+	var span = $("span.hidden:contains(" + letter + "):first");
 	if (!span.length) {
 		window.app.thumpSound.play();
 		return;
@@ -19,6 +24,15 @@ window.app.onkeypress = function (e) {
 
 	span.removeClass("hidden");
 	span.text(e.key);
+
+	var hidden = $("span.hidden:first");
+	if (!hidden.length) {
+		window.setTimeout(window.app.showNext, 1000);
+	}
+};
+
+window.app.showNext = function () {
+	window.app.returnSound.play();
 };
 
 window.app.markup = function () {
